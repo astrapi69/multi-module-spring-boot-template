@@ -1,0 +1,52 @@
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "io.franzbecker:gradle-lombok:$gradlePluginLombokVersion"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$gradlePluginVersionsVersion"
+        classpath "gradle.plugin.com.hierynomus.gradle.plugins:license-gradle-plugin:$licenseGradlePluginVersion"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:$gradleAptPluginVersion"
+    }
+}
+
+allprojects {
+    group = "$groupPackage"
+    version = "$projectVersion"
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+}
+
+subprojects {
+
+    apply plugin: "java"
+    apply plugin: "maven-publish"
+    apply plugin: "signing"
+    apply plugin: "jacoco"
+    apply plugin: "com.github.ben-manes.versions"
+    apply plugin: "com.github.hierynomus.license"
+
+    dependencies {
+        compileOnly("org.projectlombok:lombok:$lombokVersion")
+        annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+    }
+
+    // workhack for license issue #76
+    gradle.startParameter.excludedTaskNames += "licenseMain"
+    gradle.startParameter.excludedTaskNames += "licenseTest"
+
+    compileJava {
+        sourceCompatibility = "$projectSourceCompatibility"
+        targetCompatibility = "$projectTargetCompatibility"
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}

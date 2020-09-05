@@ -1,0 +1,9 @@
+rootProject.name = 'multi-module-spring-boot-template'
+
+include 'spring-modules'
+include 'spring-modules:application'
+include 'spring-modules:services'
+include 'spring-modules:persistence'
+include 'viewmodels'
+include 'entities'
+
