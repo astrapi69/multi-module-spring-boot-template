@@ -57,7 +57,6 @@ publishing {
             from components.java
             artifact sourcesJar
             artifact javadocJar
-            artifact jar
             pom {
                 name = "$project.name"
                 version = "$project.version"
